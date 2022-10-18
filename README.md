@@ -42,3 +42,24 @@ I recommend that you test your solution locally, but you do not have to do this.
 `$ git push`
 
 GitHub will automatically test your solution. 
+
+## Solution
+```py
+if number_of_primes < 1:
+    raise ValueError("Number of primes must be > 0.")
+```
+
+First we raise a value error if `number_of_primes` is an invalid value.
+
+```py
+prime_numbers = [2]
+n = 3
+```
+
+The next thing to do is initialise the variables. `prime_numbers` is a list holding all the prime numbers we've already found. We initialise it to `[2]` because the guard statement at the beginning of the function ensures that we are searching for at least 1 prime number, so we can add the first one in for free. `n` is a counter representing the current number being check for pimality: the "candidate number". We initialise it to `3` because we already have `2` in `prime_numbers`, so `3` is the next prime candidate.
+
+```py
+while len(prime_numbers) < number_of_primes:
+```
+
+We'll keep on looping until we've found the desired amount of prime numbers

@@ -12,13 +12,11 @@ def primes(number_of_primes):
     n = 3
 
     while len(prime_numbers) < number_of_primes:
-        is_prime = True
         for p in [p for p in prime_numbers if p <= ceil(n / 2)]:
             if not n % p:
                 is_prime = False
                 break 
-
-        if is_prime:
+        else:
             prime_numbers.append(n)
         
         n += 1
