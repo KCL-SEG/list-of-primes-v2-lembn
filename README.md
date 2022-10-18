@@ -56,10 +56,30 @@ prime_numbers = [2]
 n = 3
 ```
 
-The next thing to do is initialise the variables. `prime_numbers` is a list holding all the prime numbers we've already found. We initialise it to `[2]` because the guard statement at the beginning of the function ensures that we are searching for at least 1 prime number, so we can add the first one in for free. `n` is a counter representing the current number being check for pimality: the "candidate number". We initialise it to `3` because we already have `2` in `prime_numbers`, so `3` is the next prime candidate.
+The next thing to do is initialise the variables. `prime_numbers` is a list holding all the prime numbers we've already found. We initialise it to `[2]` because the guard statement at the beginning of the function ensures that we are searching for at least 1 prime number, so we can add the first one in for free. `n` is a counter representing the current number being check for pimality: the "prime candidate". We initialise it to $3$ because we already have $2$ in `prime_numbers`, so $3$ is the next prime candidate.
 
 ```py
 while len(prime_numbers) < number_of_primes:
+    for p in [p for p in prime_numbers if p <= ceil(n / 2)]:
 ```
 
-We'll keep on looping until we've found the desired amount of prime numbers
+We'll keep on looping until we've found the desired amount of prime numbers. On each iteration, we'll iterate over a subset of the currently collected primes in `prime_numbers`. This subset consits of the elements of `prime_numbers` that are less than or equal to half of the prime candidate. This optimisation prevents us from searching unnecessary multiples. For example if the prime candidate is 20, we only need to test it against the prime numbers less than or equal to 10 (2, 3, 5, 7) because if 10 is divisible by any of these primes, the 20 will be also.
+
+```py
+if not n % p:
+    break 
+```
+
+`n % p` is a modulo expression that will only evaluate to $0$ if `n` is divisible by `p`. In this case `n` is not prime. In Python, the only number that evaluates to the boolean value `False` is $0$, so if `n` is divisible by `p`, `n % p` will evaluate to `False`. If `n % p` will evaluates to `False`, `not n % p` will evaluate to `False`, so `not n % p` is a boolean expression that is only true if `n` is divisible by `p` so therefore not prime.
+
+```py
+for:
+    ...
+else:
+    prime_numbers.append(n)
+n += 1
+```
+
+When `else` appears after a loop, it will only execute if the preceeding loop concluded its iteration without interruption (from `break`s for exceptions). The only way the `for` loop will be interrupted is when we break in the case that `n` is discovered to be non-prime. Therefore, if the `else` is executed then `n` must be prime, so we'll add it to our collection of prime numbers.
+
+Finally, we incrememnt the prime candidate to check the next chronological number. When the `while` loop completes, we can return `prime_numbers`
